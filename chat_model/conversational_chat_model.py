@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 import requests
 from dotenv import load_dotenv
@@ -9,6 +10,8 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
 class ConversationalChatModel :
+    chat_history = []
+    system_message = SystemMessage(content="You are an helpful AI Assistant")
     ###############################################################################
     # Basic Implementation with a Curl call rather than usinfg some of the inbuilt#
     # features of Lang Chain request Body Parameters :                            #
@@ -67,7 +70,26 @@ class ConversationalChatModel :
         result = model.invoke(messages)
         return result
 
+    def conversational_chatbot(self, messages: List) :
+        chat_model_name = os.getenv("CHAT_MODEL", "Defaulted Model")
+        model = ChatGoogleGenerativeAI(model=chat_model_name)
+        result = model.invoke(messages)
+
+        return result
+
+
+
 if __name__ == "__main__":
     chat_model = ConversationalChatModel()
-    result = chat_model.conversation("What is 22 divided by 7?")
-    print(f"Result from AI : {result.content}")
+    chat_history = []
+    system_message = SystemMessage(content="You are an helpful AI Assistant")
+    chat_history.append(system_message)
+    while True :
+        query = input("You : ")
+        if query.lower() == "exit":
+            break
+        chat_history.append(HumanMessage(content=query))
+        result = chat_model.conversational_chatbot(chat_history)
+        response = result.content
+        print(f"AI Response : {response}")
+        chat_history.append(AIMessage(content=response))
