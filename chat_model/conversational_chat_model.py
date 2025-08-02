@@ -1,6 +1,6 @@
+import logging
 import os
 from typing import List
-import logging
 
 import requests
 from dotenv import load_dotenv
@@ -9,8 +9,8 @@ from langchain_core.messages.human import HumanMessage
 from langchain_core.messages.system import SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-from chat_model.persistance.save_chat import ChatMessagePersistance
 from chat_model.message_type import MessageType
+from chat_model.persistance.save_chat import ChatMessagePersistance
 
 load_dotenv()
 logging.basicConfig(level=os.getenv("LOGGING_LEVEL", logging.INFO))
