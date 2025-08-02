@@ -55,3 +55,9 @@ The first module fo this project is a basic implementation of the AI API Request
 Once all the API Keys are imported in to the `.env` file we are good to start up this application.
 In the chat_mode module under the conversational_chat_model you will be able to see the API Request to make the API call to gemini with a question. And the response is parsed in the out put. This is a very rudimentary approach where we are making CURL calls and it involves wirting a lot of code.
 The second menthod is more of an SDK Approach Where we are using in-built featuress from the langchain module to avoid all the manual codes and to make it a more conversation chat where we can open up a command line ui and it will interact with us.
+Once its working as expected we need to save the chat to get teh context right after session termination in thei case we are using a redis cache.
+### Steps to install Redis cache
+```bash
+docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+```
+This command will let you bring up a local instance of redis on port 6379. This is what we are using as well.
