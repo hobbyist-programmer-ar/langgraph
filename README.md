@@ -50,3 +50,8 @@ ruff version # Displays the installed Ruff version.
 ruff help # Provides general help or help for a specific subcommand.
 ruff check --fix <FileName> # Imporves the code readbility
 ```
+## Running the Application locally
+The first module fo this project is a basic implementation of the AI API Request where we will make a curl call with out query. In this project we are using the Gemini AI.
+Once all the API Keys are imported in to the `.env` file we are good to start up this application.
+In the chat_mode module under the conversational_chat_model you will be able to see the API Request to make the API call to gemini with a question. And the response is parsed in the out put. This is a very rudimentary approach where we are making CURL calls and it involves wirting a lot of code.
+The second menthod is more of an SDK Approach Where we are using in-built featuress from the langchain module to avoid all the manual codes and to make it a more conversation chat where we can open up a command line ui and it will interact with us.

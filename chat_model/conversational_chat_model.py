@@ -1,5 +1,6 @@
 import os
 from typing import List
+import logging
 
 import requests
 from dotenv import load_dotenv
@@ -8,10 +9,13 @@ from langchain_core.messages.human import HumanMessage
 from langchain_core.messages.system import SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
+from chat_model.persistance.save_chat import ChatMessagePersistance
+from chat_model.message_type import MessageType
+
 load_dotenv()
+logging.basicConfig(level=os.getenv("LOGGING_LEVEL", logging.INFO))
 class ConversationalChatModel :
-    chat_history = []
-    system_message = SystemMessage(content="You are an helpful AI Assistant")
+
     ###############################################################################
     # Basic Implementation with a Curl call rather than usinfg some of the inbuilt#
     # features of Lang Chain request Body Parameters :                            #
@@ -77,19 +81,26 @@ class ConversationalChatModel :
 
         return result
 
+    def start_coversation(self):
+        persistence = ChatMessagePersistance()
+        chat_history = []
+        system_message = "You are an helpful AI Assistant"
+        persistence.save_message(system_message, MessageType.SYSTEM_MESSAGE)
+
+        chat_history.append(system_message)
+        while True :
+            query = input("You : ")
+            if query.lower() == "exit":
+                break
+            chat_history.append(HumanMessage(content=query))
+            persistence.save_message(query, MessageType.USER_MESSAGE)
+            result = self.conversational_chatbot(chat_history)
+            response = result.content
+            print(f"AI Response : {response}")
+            chat_history.append(AIMessage(content=response))
+            persistence.save_message(str(response), MessageType.AI_MESSAGE)
+
 
 
 if __name__ == "__main__":
-    chat_model = ConversationalChatModel()
-    chat_history = []
-    system_message = SystemMessage(content="You are an helpful AI Assistant")
-    chat_history.append(system_message)
-    while True :
-        query = input("You : ")
-        if query.lower() == "exit":
-            break
-        chat_history.append(HumanMessage(content=query))
-        result = chat_model.conversational_chatbot(chat_history)
-        response = result.content
-        print(f"AI Response : {response}")
-        chat_history.append(AIMessage(content=response))
+    ConversationalChatModel().start_coversation()
