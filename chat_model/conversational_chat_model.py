@@ -78,13 +78,13 @@ class ConversationalChatModel :
         chat_model_name = os.getenv("CHAT_MODEL", "Defaulted Model")
         model = ChatGoogleGenerativeAI(model=chat_model_name)
         result = model.invoke(messages)
-
         return result
 
     def start_coversation(self):
         persistence = ChatMessagePersistance()
         chat_history = []
-        system_message = "You are an helpful AI Assistant"
+
+        system_message = input("Set System Context : ")
         persistence.save_message(system_message, MessageType.SYSTEM_MESSAGE)
 
         chat_history.append(system_message)
