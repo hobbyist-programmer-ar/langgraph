@@ -156,7 +156,12 @@ class VectorStoreManager:
         docstore = self.vector_store.docstore._dict
         human_readable_docs = []
         for doc_id, document in docstore.items():
-            human_readable_docs.append({"content": document.page_content, "metadata": document.metadata})
+            human_readable_docs.append(
+                {
+                    "content": document.page_content,
+                    "metadata": document.metadata,
+                    "docid" : doc_id
+                })
         return human_readable_docs
 
     def query_vector_store(self, query: str, k: int = 4) -> List[Document]:
@@ -165,6 +170,9 @@ class VectorStoreManager:
 
         # The similarity_search method returns a list of documents and their scores
         results = self.vector_store.similarity_search(query, k=k)
+        # This gives you the details with a similarity score based on the similarity score
+        # it will bring in adjacent information
+        print(self.vector_store.similarity_search_with_relevance_scores(query=query, similarity=0.9, k=k))
         return results
 
 # This block allows the script to be executed directly from the command line.

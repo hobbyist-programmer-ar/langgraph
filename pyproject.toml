@@ -7,7 +7,7 @@ authors = ["hobbyist-programmer-ar <hobbyistprogrammer@outlook.com>"]
 packages = [{ include = "chat_model" }]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.13"
+python = ">=3.12,<3.14"
 langchain-openai = "^0.2.0"
 python-dotenv = "^1.0.1"
 langchain = "^0.3.27"
@@ -26,7 +26,7 @@ langchainhub = "^0.1.21"
 wikipedia = "^1.4.0"
 tavily-python = "^0.3.3"
 langchain-ollama = "^0.3.6"
-
+faiss-cpu = "^1.9.0"
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
 useLibraryCodeForTypes = true
