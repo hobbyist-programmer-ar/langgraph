@@ -14,6 +14,9 @@ from chat_model.persistance.save_chat import ChatMessagePersistance
 
 load_dotenv()
 logging.basicConfig(level=os.getenv("LOGGING_LEVEL", logging.INFO))
+chat_history = []
+
+
 class ConversationalChatModel :
 
     ###############################################################################
@@ -80,14 +83,17 @@ class ConversationalChatModel :
         result = model.invoke(messages)
         return result
 
+    def set_context(self, message: str):
+        persistence = ChatMessagePersistance()
+        context = SystemMessage(content=message)
+        chat_history.append(context)
+        persistence.save_message(message, MessageType.SYSTEM_MESSAGE)
+        logging.info("System Context Set Successfully")
+
     def start_coversation(self):
         persistence = ChatMessagePersistance()
-        chat_history = []
-
-        system_message = input("Set System Context : ")
-        persistence.save_message(system_message, MessageType.SYSTEM_MESSAGE)
-
-        chat_history.append(system_message)
+        system_message = input("Enter the System Context : ")
+        self.set_context(system_message)
         while True :
             query = input("You : ")
             if query.lower() == "exit":
