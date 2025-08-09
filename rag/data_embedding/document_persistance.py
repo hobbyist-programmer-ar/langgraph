@@ -170,8 +170,16 @@ class VectorStoreManager:
 
         # The similarity_search method returns a list of documents and their scores
         results = self.vector_store.similarity_search(query, k=k)
+        print("MMR Result")
+        print(self.vector_store.max_marginal_relevance_search
+            (query, k=k, lambda_mult=0.5, fetch_k=20))
+
+        print("Similarity Search Result")
+        print (results)
+
         # This gives you the details with a similarity score based on the similarity score
         # it will bring in adjacent information
+        print("Similarity Search With Threshold Result")
         print(self.vector_store.similarity_search_with_relevance_scores(query=query, similarity=0.9, k=k))
         return results
 
@@ -217,6 +225,7 @@ if __name__ == '__main__':
             try:
                 user_query = input("Query> ")
                 if user_query.lower() == 'exit':
+                    print("Closing Query interface")
                     break
                 if not user_query:
                     continue

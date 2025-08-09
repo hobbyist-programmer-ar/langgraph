@@ -1,2 +1,17 @@
+# Environment variables
+# Ignore all .env files to keep sensitive keys and configurations private.
 .env
-__pycache__
+*.env
+
+# Python
+# Ignore bytecode and compiled files.
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment folders
+# Common names for virtual environments.
+.venv/
+venv/
+env/
+ENV/
